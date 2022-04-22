@@ -5,7 +5,7 @@ using AngularExampleApp.Core;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
-services.Configure<UserDbConfiguration>(builder.Configuration);
+services.Configure<UserDbConfiguration>(builder.Configuration.GetSection(nameof(UserDbConfiguration)));
 services.AddTransient<IUserService, UserService>();
 services.AddSingleton<IDbClient, DbClient>();
 
@@ -36,7 +36,8 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-app.UseSpa(spa => {
+app.UseSpa(spa =>
+{
     spa.Options.SourcePath = "Views";
 
     if (app.Environment.IsDevelopment())

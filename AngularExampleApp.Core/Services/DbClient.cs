@@ -3,16 +3,20 @@
     using AngularExampleApp.Core.Models;
     using MongoDB.Driver;
     using Microsoft.Extensions.Options;
+    using Microsoft.Extensions.Configuration;
 
     public class DbClient : IDbClient
     {
+        private readonly UserDbConfiguration userDbConfiguration;
         private readonly IMongoCollection<User> _users;
-        public DbClient(IOptions<UserDbConfiguration> userDbConfiguration)
+        public DbClient(IOptions<UserDbConfiguration> options)
         {
-            var client = new MongoClient(userDbConfiguration.Value.ConnectionString);
-            var db = client.GetDatabase(userDbConfiguration.Value.UserDatabaseName);
+            userDbConfiguration = options.Value;
 
-            _users = db.GetCollection<User>(userDbConfiguration.Value.UserCollectionName);
+            var client = new MongoClient(userDbConfiguration.ConnectionString);
+            var db = client.GetDatabase(userDbConfiguration.UserDatabaseName);
+
+            _users = db.GetCollection<User>(userDbConfiguration.UserCollectionName);
         }
 
         public IMongoCollection<User> GetUsersCollection() => _users;

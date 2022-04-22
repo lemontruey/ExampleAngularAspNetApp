@@ -5,8 +5,8 @@
     {
         public List<User> ListUsers();
         public User GetUser(int id);
-        public void UpdateUser(int id);
-        public User CreateUser();
+        public User AddUser(User user);
+        public User EditUser(User user);
         public void DeleteUser(int id);
     }
 }

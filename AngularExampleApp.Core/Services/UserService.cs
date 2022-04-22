@@ -10,22 +10,33 @@
         {
             _users = dbClient.GetUsersCollection();
         }
-        public List<User> ListUsers() => _users.Find(x => true).ToList();
-        
-        public User GetUser(int id) => _users.Find(x => x.Id == id).FirstOrDefault();
 
-        public User CreateUser()
+        public List<User> ListUsers()
         {
-            throw new NotImplementedException();
+            return _users.Find(u => true).ToList();
         }
-        public void UpdateUser(int id)
+        
+        public User GetUser(int id)
         {
-            throw new NotImplementedException();
+            return _users.Find(u => u.Id == id).FirstOrDefault();
+        }
+
+        public User AddUser(User user)
+        {
+            _users.InsertOne(user);
+            return user;
+        }
+
+        public User EditUser(User user)
+        {
+            GetUser(user.Id);
+            _users.ReplaceOne(u => u.Id == user.Id, user);
+            return user;
         }
 
         public void DeleteUser(int id)
         {
-            throw new NotImplementedException();
-        }
+            _users.DeleteOne(user => user.Id == id);
+        }        
     }
 }
