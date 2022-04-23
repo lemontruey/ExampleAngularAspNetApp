@@ -23,3 +23,4 @@ AngularExampleApp/Views/node_modules*
 /AngularExampleApp/Views/src/polyfills.js
 /AngularExampleApp/Views/src/polyfills.js.map
 /AngularExampleApp/Views/package-lock.json
+/AngularExampleApp/Views/dist/

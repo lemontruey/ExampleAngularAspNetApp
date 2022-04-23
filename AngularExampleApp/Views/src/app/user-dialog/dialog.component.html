@@ -1,0 +1,59 @@
+<h2 mat-dialog-title>Insert user here</h2>
+<div mat-dialog-content>
+    <form [formGroup]="userForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Пользователь</mat-label>
+            <input formControlName="name" matInput placeholder="Иван Иванов">
+        </mat-form-field>
+        <div class="select-container">
+            <mat-form-field style="width: 70%" appearance="outline">
+                <mat-label>Тип пользователя</mat-label>
+                <mat-select formControlName="userType" placeholer="User Type">
+                    <mat-option mat-option *ngFor="let ut of userTypeList" [value]="ut.name">{{ut.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-icon-button
+                    color="primary"
+                    (click)="addUserType()"
+                    matTooltip="Add Role"
+                    matTooltipPosition="right"
+                    aria-label="Add Role">
+                <mat-icon>library_add</mat-icon>
+            </button>
+            <button mat-icon-button
+                    color="primary"
+                    (click)="editUserType()"
+                    matTooltip="Edit Role"
+                    matTooltipPosition="right"
+                    aria-label="Edit Role">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button
+                    color="warn"
+                    matTooltip="Delete Role"
+                    matTooltipPosition="right"
+                    aria-label="Remove Role">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>        
+        <mat-form-field appearance="outline">
+            <mat-label>Логин</mat-label>
+            <input formControlName="login" matInput placeholder="lemontrue123">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Пароль</mat-label>
+            <input formControlName="password" matInput placeholder="qwe123asd">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Choose a date</mat-label>
+            <input formControlName="lastVisitDate" matInput [matDatepicker]="picker">
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" (click)="addUser()">{{actionButtonName}}</button>
+</div>

@@ -1,52 +1,95 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService } from './data.service';
-import { User } from './user/user';
+import { DialogComponent } from './user-dialog/dialog.component';
+import { UserApiService } from './services/user.api.service';
+import { User } from './models/user';
+
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
-    selector: 'app',
+    selector: 'app-root',
     templateUrl: './app.component.html',
-    providers: [DataService]
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+    displayedColumns: string[] = ['name', 'login', 'password', 'lastVisitDate', 'userType', 'action'];
+    dataSource !: MatTableDataSource<User>;
 
-    user: User = new User();
-    users: User[];
-    tableMode: boolean = true;
+    @ViewChild(MatPaginator) paginator !: MatPaginator;
+    @ViewChild(MatSort) sort !: MatSort;
 
-    constructor(private dataService: DataService) { }
+    constructor(private dialog: MatDialog, private apiService: UserApiService) {}
 
-    ngOnInit() {
-        this.loadUsers();
+    ngOnInit(): void {
+        this.getAllUsers();
     }
 
-    loadUsers() {
-        this.dataService.getUsers()
-            .subscribe((userData: User[]) => this.users = userData);
+    openUserDialog() {
+        this.dialog
+            .open(DialogComponent, {
+                width: '30%'                
+            })
+            .afterClosed()
+            .subscribe((state) => {
+                if (state === 'save') {
+                    this.getAllUsers();
+                }
+            }
+        );
     }
 
-    save() {
-        if (this.user.id == null) {
-            this.dataService.createUser(this.user)
-                .subscribe((userData: User) => this.users.push(userData));
-        } else {
-            this.dataService.updateUser(this.user)
-                .subscribe(data => this.loadUsers());
+    getAllUsers() {
+        this.apiService.get()
+            .subscribe({
+                next: (response) => {
+                    this.dataSource = new MatTableDataSource(response);
+                    this.dataSource.paginator = this.paginator;
+                    this.dataSource.sort = this.sort;
+                },
+                error: (err) => {
+                    console.log("Error while fetching:" + err);
+                }
+            });
+    }
+
+    editUser(row: User) {
+        this.dialog
+            .open(DialogComponent, {
+                width: '30%',
+                data: row
+            })
+            .afterClosed()
+            .subscribe((state) => {
+                if (state === 'update') {
+                    this.getAllUsers();
+                }
+            });
+    }
+
+    deleteUser(id: number) {
+        if (confirm('Are you sure about that?')) {
+            this.apiService
+                .delete(id)
+                .subscribe({
+                    next: () => {
+                    alert('Deleted successfully');
+                    this.getAllUsers();
+                    },
+                    error: (err) => {
+                    console.log("Error while fetching:" + err);
+                    }
+                });
         }
-        this.cancel();
     }
-    editUser(u: User) {
-        this.user = u;
-    }
-    cancel() {
-        this.user = new User();
-        this.tableMode = true;
-    }
-    delete(u: User) {
-        this.dataService.deleteUser(u.id)
-            .subscribe(data => this.loadUsers());
-    }
-    add() {
-        this.cancel();
-        this.tableMode = false;
+
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+        }
     }
 }

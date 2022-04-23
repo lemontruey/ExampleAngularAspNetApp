@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Insert information about User role here</h2>
+<div mat-dialog-content>
+    <form [formGroup]="userForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Role Name</mat-label>
+            <input formControlName="userType" matInput placeholder="Moderator">
+        </mat-form-field>
+        <section class="example-section">
+            <mat-checkbox formControlName="isAllowEditing" class="example-margin">Allow editing</mat-checkbox>
+        </section>
+    </form>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" (click)="addUserType()">{{actionButtonName}}</button>
+</div>

@@ -6,12 +6,12 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : Controller
+    public class UserTypeController : Controller
     {
-        IService<UserMapping> _userTypeService;
-        public UsersController(IService<UserMapping> userTypeService)
+        IService<UserTypeMapping> _userTypeService;
+        public UserTypeController(IService<UserTypeMapping> userTypeServices)
         {
-            _userTypeService = userTypeService;
+            _userTypeService = userTypeServices;
         }
 
         [HttpGet]
@@ -21,22 +21,22 @@
         }
 
         [HttpPost]
-        public IActionResult Post(UserMapping user)
+        public IActionResult Post(UserTypeMapping userType)
         {
             if (ModelState.IsValid)
             {
-                return Ok(_userTypeService.Add(user));
+                return Ok(_userTypeService.Add(userType));
             }
 
             return BadRequest();
         }
 
         [HttpPut]
-        public IActionResult Put(UserMapping user)
+        public IActionResult Put(UserTypeMapping userType)
         {
             if (ModelState.IsValid)
             {
-                return Ok(_userTypeService.Edit(user));
+                return Ok(_userTypeService.Edit(userType));
             }
 
             return BadRequest();

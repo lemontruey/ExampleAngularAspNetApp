@@ -1,11 +1,12 @@
-﻿namespace AngularExampleApp.Models
+﻿namespace AngularExampleApp.Core.Models.Mappings
 {
-    using AngularExampleApp.Core.Models;
-    public class UserMapping : BaseEntity
+    public class UserMapping : IBaseMapping
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public DateTime LastVisitDate { get; set; }
-        public string UserTypeName { get; set; }
+        public UserTypeMapping UserType { get; set; }
     }
 }

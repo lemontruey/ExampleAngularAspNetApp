@@ -1,13 +1,17 @@
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using AngularExampleApp.Core.Services;
 using AngularExampleApp.Core;
+using AngularExampleApp.Core.Models;
+using AngularExampleApp.Core.Models.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 services.Configure<UserDbConfiguration>(builder.Configuration.GetSection(nameof(UserDbConfiguration)));
-services.AddTransient<IUserService, UserService>();
-services.AddSingleton<IDbClient, DbClient>();
+services.AddTransient<IService<UserMapping>, UserService>();
+services.AddTransient<IService<UserTypeMapping>, UserTypeService>();
+services.AddSingleton<IDbClient<User>, UserDbClient>();
+services.AddSingleton<IDbClient<UserType>, UserTypeDbClient>();
 
 services.AddControllers();
 services.AddSpaStaticFiles(configuration =>

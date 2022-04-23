@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
-    <None Remove="Views\src\app\data.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,10 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AngularExampleApp.Core\AngularExampleApp.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="Views\src\app\data.service.ts" />
   </ItemGroup>
 
 </Project>
