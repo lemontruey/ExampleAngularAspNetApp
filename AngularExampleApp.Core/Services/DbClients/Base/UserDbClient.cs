@@ -15,8 +15,15 @@
         {
             _options = options.Value;
 
-            var client = new MongoClient(_options.ConnectionString);
-            _database = client.GetDatabase(_options.DatabaseName);
+            try
+            {
+                var client = new MongoClient(_options.ConnectionString);
+                _database = client.GetDatabase(_options.DatabaseName);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Can not access to MongoDb server.", ex);
+            }
         }
 
         public abstract IMongoCollection<T> GetCollection();

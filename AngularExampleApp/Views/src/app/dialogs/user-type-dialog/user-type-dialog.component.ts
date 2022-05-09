@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UserType } from '../models/user-type';
-import { UserTypeApiService } from '../services/user-type-api.service';
+import { UserType } from '../../models/user-type';
+import { UserTypeApiService } from '../../services/user-type-api.service';
 
 @Component({
   selector: 'app-user-type-dialog',
@@ -23,14 +23,18 @@ export class UserTypeDialogComponent implements OnInit {
 
     ngOnInit(): void {
         this.userForm = this.formBuilder.group({
-            userType: ['', Validators.required],
-            isAllowEditing: [false, Validators.required]
+            id: [0, Validators.required],
+            name: ['', Validators.required],
+            isAllowEditing: [false, Validators.required],
+            isDeletable: [true, Validators.required]
         });
 
         if (this.editData) {
             this.actionButtonName = "Update";
-            this.userForm.controls['userType'].setValue(this.editData.name);
+            this.userForm.controls['id'].setValue(this.editData.id);
+            this.userForm.controls['name'].setValue(this.editData.name);
             this.userForm.controls['isAllowEditing'].setValue(this.editData.isAllowEditing);
+            this.userForm.controls['isDeletable'].setValue(this.editData.isDeletable);
         }
     }
 
@@ -51,8 +55,8 @@ export class UserTypeDialogComponent implements OnInit {
                         alert("User added successfully");
                         this.dialogRef.close('save');
                     },
-                    error: () => {
-                        alert("Error while adding the user");
+                    error: (err) => {
+                        alert("Error while adding the user: " + err.message);
                     }
                 });
         }
@@ -68,8 +72,8 @@ export class UserTypeDialogComponent implements OnInit {
                         this.userForm.reset();
                         this.dialogRef.close('update');
                     },
-                    error: () => {
-                        alert("Error while updating the user");
+                    error: (err) => {
+                        alert("Error while updating the user: " + err.message);
                     }
                 });
         }

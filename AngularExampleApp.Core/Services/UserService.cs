@@ -9,14 +9,12 @@
     {
         private readonly IMongoCollection<User> _users;
         private readonly IMongoCollection<UserType> _userTypes;
-        private readonly IService<UserTypeMapping> _userTypeService;
+        
         public UserService( IDbClient<User> userDbClient,
-                            IDbClient<UserType> userTypeDbClient,
-                            IService<UserTypeMapping> userTypeService)
+                            IDbClient<UserType> userTypeDbClient)
         {
-            _users = userDbClient.GetCollection();
-            _userTypes = userTypeDbClient.GetCollection();
-            _userTypeService = userTypeService;
+            _users      = userDbClient.GetCollection();
+            _userTypes  = userTypeDbClient.GetCollection();
         }
 
         public List<UserMapping> List()
@@ -33,48 +31,34 @@
                     .ToList();
         }
 
-        public UserMapping Add(UserMapping userDto)
+        public UserMapping Add(UserMapping dto)
         {
-            CreateOrEditSubEntities(userDto.UserType);
+            dto.Id = _users.AsQueryable().Max(x => x.Id) + 1;
+            _users.InsertOne(dto.MapToEntity());
 
-            var user = GetUserInternal(userDto.Id);
-            if (user == null) _users.InsertOne(userDto.MapToEntity());
-
-            return userDto;
+            return dto;
         }
 
-        public UserMapping Edit(UserMapping userDto)
+        public UserMapping Edit(UserMapping dto)
         {
-            CreateOrEditSubEntities(userDto.UserType);
+            var user = _users.Find(u => u.Id == dto.Id).FirstOrDefault();
+            if (user == null) return null;
 
-            var user = GetUserInternal(userDto.Id);
-            if (user != null) _users.ReplaceOne(u => u.Id == user.Id, userDto.MapToEntity());
+            var update = Builders<User>.Update
+                            .Set(u => u.Name, dto.Name)
+                            .Set(u => u.Login, dto.Login)
+                            .Set(u => u.Password, dto.Password)
+                            .Set(u => u.LastVisitDate, dto.LastVisitDate)
+                            .Set(u => u.UserTypeId, dto.UserTypeId);
 
-            return userDto;
+            _users.UpdateOne(u => u.Id == dto.Id, update);
+
+            return dto;
         }
 
         public void Delete(int id)
         {
             _users.DeleteOne(user => user.Id == id);
-        }
-        
-        private User GetUserInternal(int id)
-        {
-            return _users.Find(u => u.Id == id).FirstOrDefault();
-        }
-
-        private void CreateOrEditSubEntities(UserTypeMapping dto)
-        {
-            if (dto == null) return;
-
-            if (dto.Id == 0)
-            {
-                _userTypeService.Add(dto);
-            }
-            else
-            {
-                _userTypeService.Edit(dto);
-            }
         }
     }
 }

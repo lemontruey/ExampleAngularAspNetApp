@@ -5,8 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UserTypeDialogComponent } from './user-type-dialog/user-type-dialog.component';
-import { DialogComponent } from './user-dialog/dialog.component';
+import { DialogComponent } from './dialogs/user-dialog/dialog.component';
+import { UserTypeDialogComponent } from './dialogs/user-type-dialog/user-type-dialog.component';
 
 import {MatToolbarModule } from '@angular/material/toolbar';
 import {MatIconModule } from '@angular/material/icon';
@@ -23,14 +23,16 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { MatMenuModule } from '@angular/material/menu';
+import { UserTypeComponent } from './user-type/user-type.component';
 
 
 @NgModule({
     declarations: [
         AppComponent,
         DialogComponent,
-        UserTypeDialogComponent
+        UserTypeDialogComponent,
+        UserTypeComponent
     ],
     imports: [
         HttpClientModule,
@@ -52,7 +54,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatPaginatorModule,
         MatSortModule,
         MatCheckboxModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatMenuModule
     ],
     providers: [],
     bootstrap: [AppComponent]

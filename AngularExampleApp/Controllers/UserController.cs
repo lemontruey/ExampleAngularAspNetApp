@@ -6,10 +6,10 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : Controller
+    public class UserController : Controller
     {
-        IService<UserMapping> _userTypeService;
-        public UsersController(IService<UserMapping> userTypeService)
+        private readonly IService<UserMapping> _userTypeService;
+        public UserController(IService<UserMapping> userTypeService)
         {
             _userTypeService = userTypeService;
         }

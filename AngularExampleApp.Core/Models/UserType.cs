@@ -7,6 +7,9 @@
     {
         [BsonElement("allow_edit")]
         public bool IsAllowEditing { get; set; }
+
+        [BsonElement("is_deletable")]
+        public bool IsDeletable { get; set; }
     }
 
     public static class UserTypeExtensions
@@ -17,7 +20,8 @@
             {
                 Id = userType.Id,
                 Name = userType.Name,
-                IsAllowEditing = userType.IsAllowEditing
+                IsAllowEditing = userType.IsAllowEditing,
+                IsDeletable = userType.IsDeletable
             };
         }
 
@@ -27,7 +31,8 @@
             {
                 Id = dto.Id,
                 Name = dto.Name,
-                IsAllowEditing = dto.IsAllowEditing
+                IsAllowEditing = dto.IsAllowEditing,
+                IsDeletable = dto.IsDeletable
             };
         }
     }

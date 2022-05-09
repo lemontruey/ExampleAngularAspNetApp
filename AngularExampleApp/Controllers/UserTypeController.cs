@@ -8,7 +8,7 @@
     [ApiController]
     public class UserTypeController : Controller
     {
-        IService<UserTypeMapping> _userTypeService;
+        private readonly IService<UserTypeMapping> _userTypeService;
         public UserTypeController(IService<UserTypeMapping> userTypeServices)
         {
             _userTypeService = userTypeServices;

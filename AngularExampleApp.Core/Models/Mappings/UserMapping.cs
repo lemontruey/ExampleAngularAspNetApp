@@ -7,6 +7,7 @@
         public string Login { get; set; }
         public string Password { get; set; }
         public DateTime LastVisitDate { get; set; }
-        public UserTypeMapping UserType { get; set; }
+        public int UserTypeId { get; set; }
+        public string UserTypeName { get; set; }
     }
 }

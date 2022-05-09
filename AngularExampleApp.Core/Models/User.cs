@@ -1,23 +1,26 @@
 ﻿namespace AngularExampleApp.Core.Models
 {
+    using MongoDB.Bson;
     using AngularExampleApp.Core.Models.Mappings;
     using MongoDB.Bson.Serialization.Attributes;
-    using System.Linq.Expressions;
 
     [Serializable]
     public class User : BaseEntity
     {
         [BsonElement("login")]
+        [BsonRepresentation(BsonType.String)]
         public string Login { get; set; }
 
         [BsonElement("password")]
+        [BsonRepresentation(BsonType.String)]
         public string Password { get; set; }
 
         [BsonElement("last_visit_date")]
+        [BsonRepresentation(BsonType.DateTime)]
         public DateTime LastVisitDate { get; set; }
 
         [BsonElement("type_id")]
-        [BsonRepresentation(MongoDB.Bson.BsonType.Int32)]
+        [BsonRepresentation(BsonType.Int32)]
         public int UserTypeId { get; set; }
     }
 
@@ -38,12 +41,8 @@
                 Login = joinedEntity.User.Login,
                 Password = joinedEntity.User.Password,
                 LastVisitDate = joinedEntity.User.LastVisitDate,
-                UserType = new UserTypeMapping()
-                {
-                    Id = joinedEntity.UserType.Id,
-                    Name = joinedEntity.UserType.Name,
-                    IsAllowEditing = joinedEntity.UserType.IsAllowEditing
-                }
+                UserTypeId = joinedEntity.UserType.Id,
+                UserTypeName = joinedEntity.UserType.Name
             };
         }
 
@@ -56,7 +55,7 @@
                 Login = dto.Login,
                 Password = dto.Password,
                 LastVisitDate = dto.LastVisitDate,
-                UserTypeId = dto.UserType?.Id ?? 0
+                UserTypeId = dto.UserTypeId
             };
         }
     }
