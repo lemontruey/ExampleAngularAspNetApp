@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
     editUser(row: User) {
         this.dialog
             .open(DialogComponent, {
-                width: '30%',
+                width: '30%',                
                 data: row
             })
             .afterClosed()

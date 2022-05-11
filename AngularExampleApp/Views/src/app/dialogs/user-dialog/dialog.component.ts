@@ -16,6 +16,7 @@ export class DialogComponent implements OnInit {
     userTypeList: UserType[] = [];
 
     userForm !: FormGroup;
+    hide = true;
 
     constructor(
         private formBuilder: FormBuilder,

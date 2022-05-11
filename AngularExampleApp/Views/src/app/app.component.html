@@ -1,25 +1,23 @@
-<p>
+<div class="header">
     <mat-toolbar color="primary">
         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
             <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="openUserTypeDialog()">
-                <mat-icon>check_circle_outline</mat-icon>
-                <span>Manage user roles</span>
-            </button>
+            <app-todo-list-button></app-todo-list-button>
         </mat-menu>
         <mat-icon>supervisor_account</mat-icon>
         <span>Grid</span>
         <span class="example-spacer"></span>
+        <button mat-raised-button style="margin-right: 10px" (click)="openUserTypeDialog()">Add Role</button>
         <button mat-raised-button color="warn" (click)="openUserDialog()">Add User</button>
     </mat-toolbar>
-</p>
+</div>
 
 <div class="container">
     <mat-form-field appearance="standard">
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="User name" #input>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ivan IV" #input>
     </mat-form-field>
   
     <div class="container">
@@ -42,7 +40,7 @@
 
             <ng-container matColumnDef="lastVisitDate">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Visit Date </th>
-                <td mat-cell *matCellDef="let row"> {{row.lastVisitDate | date: "dd/MM/yyyy"}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.lastVisitDate | date: "MMM d, y"}} </td>
             </ng-container>
 
             <ng-container matColumnDef="userTypeName">

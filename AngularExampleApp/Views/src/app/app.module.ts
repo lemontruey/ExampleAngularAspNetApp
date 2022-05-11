@@ -25,6 +25,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { UserTypeComponent } from './user-type/user-type.component';
+import { MatListModule } from '@angular/material/list';
+
+import { TodoListComponent } from './todo-list/todo-list.component';
+import { TodoDialogComponent } from './todo-list/todo-dialog/todo-dialog.component';
 
 
 @NgModule({
@@ -32,7 +36,9 @@ import { UserTypeComponent } from './user-type/user-type.component';
         AppComponent,
         DialogComponent,
         UserTypeDialogComponent,
-        UserTypeComponent
+        UserTypeComponent,
+        TodoListComponent,
+        TodoDialogComponent
     ],
     imports: [
         HttpClientModule,
@@ -55,7 +61,8 @@ import { UserTypeComponent } from './user-type/user-type.component';
         MatSortModule,
         MatCheckboxModule,
         MatTooltipModule,
-        MatMenuModule
+        MatMenuModule,
+        MatListModule
     ],
     providers: [],
     bootstrap: [AppComponent]

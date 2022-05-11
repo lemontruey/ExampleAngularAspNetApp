@@ -2,22 +2,22 @@
 <div mat-dialog-content>
     <form [formGroup]="userForm">
         <mat-form-field appearance="outline">
-            <mat-label>Пользователь</mat-label>
-            <input formControlName="name" matInput placeholder="Иван Иванов">
+            <mat-label>User</mat-label>
+            <input formControlName="name" matInput placeholder="Ivan The Fool">
         </mat-form-field>
         <mat-form-field appearance="outline">
-            <mat-label>Тип пользователя</mat-label>
+            <mat-label>User type</mat-label>
             <mat-select formControlName="userTypeName" placeholer="User Type">
                 <mat-option mat-option *ngFor="let ut of userTypeList" [value]="ut.name">{{ut.name}}</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
-            <mat-label>Логин</mat-label>
+            <mat-label>Login</mat-label>
             <input formControlName="login" matInput placeholder="lemontrue123">
         </mat-form-field>
         <mat-form-field appearance="outline">
-            <mat-label>Пароль</mat-label>
-            <input formControlName="password" matInput placeholder="qwe123asd">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" placeholder="qwe123asd">
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Choose a date</mat-label>

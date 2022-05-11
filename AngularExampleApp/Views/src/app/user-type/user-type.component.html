@@ -20,7 +20,10 @@
 
                 <ng-container matColumnDef="isAllowEditing">
                     <th mat-header-cell *matHeaderCellDef> Is Editing Allowed? </th>
-                    <td mat-cell *matCellDef="let row"> {{row.isAllowEditing}} </td>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-icon *ngIf="row.isAllowEditing">check</mat-icon>
+                        <mat-icon *ngIf="!row.isAllowEditing">close</mat-icon>
+                    </td>>
                 </ng-container>
 
                 <ng-container matColumnDef="action">
